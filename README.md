@@ -1,0 +1,2 @@
+# JavaScript-logicTasks-
+JavaScript pracitce
