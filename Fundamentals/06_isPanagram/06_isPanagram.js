@@ -29,22 +29,19 @@ const alphabethString = 'a, ą, b, c, ć, d, e, ę, f, g, h, i, j, k, l, ł, m, 
 const alphabethArr = alphabethString.split(', ');
 
 function stringChanger(sentence){
-  sentence = sentence.toLowerCase();
-  sentence = sentence.split('');
-  sentence = sentence.sort();
-  sentence = sentence.slice(sentence.indexOf('a'), sentence.length);
-  return sentence;
+  const changed = sentence.toLowerCase()
+                            .split('')
+                              .sort();
+  return changed.slice(changed.indexOf('a'));
 }
 
 function compareArr(alphabet, sentence){
   let validation = true;
   alphabet.forEach( el => { 
-      if(sentence.includes(el)){
-        validation;
-      }else{
+      if(!sentence.includes(el)){
         validation = false;
       }
-    })
+    });
   return validation;
 }
 
