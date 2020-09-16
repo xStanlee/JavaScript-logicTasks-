@@ -34,20 +34,32 @@ function stringChanger(sentence){
                               .sort();
   return changed.slice(changed.indexOf('a'));
 }
-
+/*
 function compareArr(alphabet, sentence){
   let validation = true;
-  alphabet.forEach( el => { 
-      if(!sentence.includes(el)){
-        validation = false;
-      }
-    });
+  alphabet.forEach( el => {
+    console.log('checking', el, validation);
+    if(!sentence.includes(el)){
+      validation = false;
+    }
+  });
+  return validation;
+}
+*/
+function compareArrRegularFor(alphabet, sentence){
+  let validation = true;
+  for(let i = 0; i < alphabet.length; i++){
+    console.log(validation);
+    if(!sentence.includes(alphabet[i])){
+      validation = false;
+      break;
+    }
+  }
   return validation;
 }
 
-
 function isPangram(sentence) {
-  return compareArr(alphabethArr, stringChanger(sentence));
+  return compareArrRegularFor(alphabethArr, stringChanger(sentence));
 }
 
 /* Weryfikacja */
