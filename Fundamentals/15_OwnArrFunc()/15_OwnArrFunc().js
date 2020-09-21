@@ -18,8 +18,9 @@
 */
 
 function length(array) {
-  let arrFrom = array;
   let lengthOfArr = 0;
+  let arrFrom = [...array.keys()];
+
   while(arrFrom[lengthOfArr] !== undefined){
     lengthOfArr++;
   }
@@ -50,4 +51,5 @@ function verify(input, goal) {
 verify(filter([1, 2, 3, 4], (el) => el % 2 === 0), [2, 4]);
 verify(filter([1, 2, 3, 4], (el) => el % 2 !== 0), [1, 3]);
 verify(length([1, 2, 3, 4]), 4);
-verify(length([]), 0); 
+verify(length([]), 0);
+verify(length([1, 2, , 4]), 4);
