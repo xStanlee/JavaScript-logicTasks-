@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+body{
+    background-color: #f7f7f7
+}
+
+.background__image{
+
+    min-width: 100vw;
+    min-height: 100vh;
+    background-image: url(../img/background.jpg);
+    background-size: cover;
+    clip-path: polygon(0 0, 100% 0, 100% 73%, 0 95%);
+    z-index: 1;
+}
+.header__task{
+    color: orange;
+    font-size: 40px;
+    
+    display: block;
+    margin: 15% auto auto 10%;
+    z-index: 2;
+}
