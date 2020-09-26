@@ -1,0 +1,101 @@
+/*
+* Opanuj JavaScript - Przeprogramowani.pl
+* I. Fundamenty języka JavaScript
+*
+* Ćwiczenie 8 - "Czas trwania"
+*/
+
+/*
+* Cel zadania
+*------------
+* Napisz funkcję, która policzy czas trwania kursu z podziałem na lekcje przygotowane przez Adama, Marcina i Przemka.
+
+*
+* Funkcja ma zwrócić zdanie:
+* "Kurs Opanuj JavaScript trwa x godzin i y minut.
+   Moduł Adama: ... godzin ... minut
+   Moduł Przemka: ... godzin ... minut
+   Moduł Marcina: ... godzin ... minut
+"
+*/
+
+/*
+* Punkty dodatkowe
+*-----------------
+* W wiadomości zwrotnej uwzględnij jaki % kursu stanowią materiały z poszczególnych modułów.
+*/
+const Majster = require('./exports/Majster.js');
+const lessons = require('./exports/lessons.data.js');
+
+
+const masterJabi = new Majster('Jabi', 9999999);
+
+
+let secOfAdam = 0;
+let secOfPrzemek = 0;
+let secOfMarcin = 0;
+
+function partialDuration() {
+    for (const object of lessons){
+      if (object.name.startsWith('[2x')){
+        let temporary = object.length.split(':');
+        temporary = calculateSec(temporary);
+        secOfPrzemek += temporary;
+      }else if (object.name.startsWith('[3x')){
+        let temporary = object.length.split(':');
+        temporary = calculateSec(temporary);
+        secOfMarcin += temporary;
+      }else{
+        let temporary = object.length.split(':');
+        temporary = calculateSec(temporary);
+        secOfAdam += temporary;
+      }
+    }
+  };
+
+  function calculateSec(arr){
+    let secReturned = 0;
+    for (let i = 0; i < arr.length; i++){
+      if(i === 0){
+        secReturned += Number(arr[i]) * 60;
+      }
+      secReturned += Number(arr[i]);
+    }
+    return secReturned;
+  }
+partialDuration();
+
+const masterAdam = new Majster('Adam', secOfAdam);
+const masterPrzemek = new Majster('Przemek', secOfPrzemek);
+const masterMarcin = new Majster('Marcin', secOfMarcin);
+let courseArray = [masterAdam, masterPrzemek, masterMarcin];
+
+let allMinutes = 0;
+/// IFFE to add methods to prototype of Majster baby!
+(function() {
+  this.unitChangerToMinutes = function(){
+    this.calcMinutes();
+    allMinutes += this.minutes;
+  }
+   this.percentOfCourse = function(){
+     this.minOfCourse = Math.round((this.minutes / allMinutes) * 100);
+  }
+}).call(Majster.prototype);
+
+courseArray.forEach(el => el.unitChangerToMinutes());
+const przeprogramowani = new Majster('Przeprogramowani', 0, allMinutes);
+courseArray.push(przeprogramowani);
+courseArray.forEach(el => el.percentOfCourse());
+courseArray.forEach(el => el.calcHours());
+
+
+function answear(){
+  return `Kurs Opanuj JavaScript trwa ${przeprogramowani.hours} godzin i ${przeprogramowani.minutes} minut.
+Moduł Adama: ${masterAdam.hours} godzin ${masterAdam.minutes} minut i stanowi to ${masterAdam.minOfCourse}% kursu.
+Moduł Przemka: ${masterPrzemek.hours} godzin ${masterPrzemek.minutes} minut minut i stanowi to ${masterPrzemek.minOfCourse}% kursu.
+Moduł Marcina: ${masterMarcin.hours} godzin ${masterMarcin.minutes} minut i stanowi to ${masterMarcin.minOfCourse}% kursu.
+  `
+}
+
+masterJabi.goodOrNo();
+answear();
