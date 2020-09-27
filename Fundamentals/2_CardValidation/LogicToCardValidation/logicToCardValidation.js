@@ -1,5 +1,6 @@
 let valueOnPageChangeCard = document.querySelector('.header__task');
 let valueOnPageChangeNum = document.querySelector('.header__number');
+let switchGuyToCard = document.querySelector('#guy__holding');
 
 let cardNumber = 0;
 let countOfTries = 1;
@@ -43,12 +44,17 @@ function cardValidation(number){
     if(luhnaAlgorithm(arrForLuhna)){
         cardNameOutput(valueOnPageChangeCard, nameOfCard);
         cardIDOutput(valueOnPageChangeNum, strID);
+        resultOutput(switchGuyToCard, nameOfCard);
     }
 }
 
 ///// FOR ENACAPSULATE FILES --> Validation of data-type
     function firstPrompt(){
         let passedArgument = prompt("Please enter your card number: ");
+        if(passedArgument.includes(' ')){
+            passedArgument = passedArgument.split(' ').
+                                                        join('');
+        }
         const statement = isNaN(Number(passedArgument));
         if(!statement){
             return Number(passedArgument);
@@ -60,12 +66,13 @@ function cardValidation(number){
     function isNumber(val = '', message = `Your card ID is invalid. Please enter correct. ${3-countOfTries} Tries left.`){
         if(typeof val !== "number"){
             let input = prompt(message);
+            if(countOfTries >= 3){
+                cardNameOutput(valueOnPageChangeCard, `INVALID`);
+                cardIDOutput(valueOnPageChangeNum, `TRY ENTER AFTER FEW MINUTES`);
+                resultOutput(switchGuyToCard, 'INVALID')
+                return console.log('To manny if brother');
+            }
             if(isNaN(Number(input))){
-                if(countOfTries >= 3){
-                    cardNameOutput(valueOnPageChangeCard, `INVALID`);
-                    cardIDOutput(valueOnPageChangeNum, `TRY ENTER AFTER FEW MINUTES`);
-                    return console.log('To manny if');
-                }
                 countOfTries++;
                 return isNumber();
             }else{
@@ -112,6 +119,7 @@ function cardValidation(number){
                 }
         return 'FAIL';
     }
+    // [1 2 3 4]
     function luhnaAlgorithm(arr){
         let notMultipledNumber = 0;
         let multipledNumbers = 0;
@@ -131,16 +139,37 @@ function cardValidation(number){
                 pairIndex++;
             }
         }
+        console.log(notMultipledNumber);
+        console.log(multipledNumbers);
         const finalLuhnaValue = notMultipledNumber + multipledNumbers;
         return finalLuhnaValue%10 === 0 ? true : false;
     }
 
     // Display Output
     function cardNameOutput(el, val){
-        return el.innerText = `Card ID: ${val}`;
+        return el.innerText = `Card type: ${val}`;
     }
     function cardIDOutput(el, val){
-        return el.innerText = `Number: ${val}`;
+        return el.innerText = `Card ID: ${val}`;
+    }
+    function resultOutput(el, name){
+        switch(name){
+            case 'MASTERCARD':
+                el.src = 'https://www.mastercard.pl/content/dam/mccom/global/logos/logo-mastercard-mobile.svg';
+                el.style.animation = 'none';
+                break;
+            case 'VISA':
+                el.src = 'https://fintek.pl/wp-content/uploads/2018/08/Visa9.png';
+                el.style.animation = 'none';
+                break;
+            case 'AMERICAN_EXPRESS':
+                el.src = 'https://lh3.googleusercontent.com/Xs0tyHrWwqqZfcmixWXrKiICT8ozS7bTQvFrZR9_EmxNgDq017Y4XxuS7pW9b7z7n_KW';
+                el.style.animation = 'none';
+                break;
+            default:
+                el.src = 'https://d-art.ppstatic.pl/kadry/k/r/e6/69/51e0212568ca8_o_medium.jpg';
+                el.style.animation = 'none';
+        }
     }
 
 
