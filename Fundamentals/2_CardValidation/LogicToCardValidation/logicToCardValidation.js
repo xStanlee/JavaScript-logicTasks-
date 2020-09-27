@@ -1,9 +1,9 @@
-let valueOnPageChange = document.querySelector('.header__task');
+let valueOnPageChangeCard = document.querySelector('.header__task');
+let valueOnPageChangeNum = document.querySelector('.header__number');
 
 let cardNumber = 0;
 let countOfTries = 1;
 let nameOfCard = '';
-
 
 function cardValidation(number){
     cardNumber = Number(number);
@@ -39,15 +39,13 @@ function cardValidation(number){
     if(nameOfCard === 'FAIL'){
         cardValidation('err');
     }
-
     const arrForLuhna = Array.from(strID);
-    console.log(arrForLuhna);
-
     if(luhnaAlgorithm(arrForLuhna)){
-        outputValue(valueOnPageChange, `${strID} type ${nameOfCard}`)
+        cardNameOutput(valueOnPageChangeCard, nameOfCard);
+        cardIDOutput(valueOnPageChangeNum, strID);
     }
-
 }
+
 ///// FOR ENACAPSULATE FILES --> Validation of data-type
     function firstPrompt(){
         let passedArgument = prompt("Please enter your card number: ");
@@ -63,6 +61,11 @@ function cardValidation(number){
         if(typeof val !== "number"){
             let input = prompt(message);
             if(isNaN(Number(input))){
+                if(countOfTries >= 3){
+                    cardNameOutput(valueOnPageChangeCard, `INVALID`);
+                    cardIDOutput(valueOnPageChangeNum, `TRY ENTER AFTER FEW MINUTES`);
+                    return console.log('To manny if');
+                }
                 countOfTries++;
                 return isNumber();
             }else{
@@ -109,7 +112,6 @@ function cardValidation(number){
                 }
         return 'FAIL';
     }
-    // [1 2 3 4]
     function luhnaAlgorithm(arr){
         let notMultipledNumber = 0;
         let multipledNumbers = 0;
@@ -129,15 +131,16 @@ function cardValidation(number){
                 pairIndex++;
             }
         }
-        console.log(notMultipledNumber);
-        console.log(multipledNumbers);
         const finalLuhnaValue = notMultipledNumber + multipledNumbers;
         return finalLuhnaValue%10 === 0 ? true : false;
     }
 
     // Display Output
-    function outputValue(el, val){
+    function cardNameOutput(el, val){
         return el.innerText = `Card ID: ${val}`;
+    }
+    function cardIDOutput(el, val){
+        return el.innerText = `Number: ${val}`;
     }
 
 
