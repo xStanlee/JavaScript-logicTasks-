@@ -78,7 +78,7 @@ body{
     background-image: url(../img/Card.gif);
     z-index: 100;
 }
-.guy__holding{
+#guy__holding{
     position: absolute;
     top: 25%;
     left: 50%;
