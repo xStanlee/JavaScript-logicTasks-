@@ -13,50 +13,50 @@
 * Twoim rozgrzewkowym zadaniem jest napisanie funkcji, która przekonwertuje pojedynczy obiekt AST na HTML String.
 *
 * Przykład: convertAstToHtmlString({ 
-“nodeType”: “element”, 
-“tagName”: “div”,
-“attributes”: [ 
-  { “name”: “class”, 
-    “value”: “test” }],
-“children”: [ 
-  “nodeType”: “text”, 
-  “value”: 
-  “Hello world!”]
+“nodeType”: “element”, “tagName”: “div”,
+“attributes”: [ { “name”: “class”, “value”: “test” }],
+“children”: [ “nodeType”: “text”, “value”: “Hello world!”]
 }) => "<div class="test">Hello world!</div>"
 * 
 * 
 */
-
-function wrtieText(){
-
-}
-
-function buildElement(el){
-  // buildElement
-}
+let outputHTML = ''
+let closingTagArray = [];
 
 function convertAstToHtmlString(astObject) {
-  let properString = '';
-
-  const {nodeType, tagName, attributes, children} = astObject;
-  const {name, value} = attributes;
+  if (Array.isArray(astObject)){
+    const previousRecursionChild = astObject[0];
+    if(previousRecursionChild.nodeType === 'text');
+      outputHTML += previousRecursionChild.value;
+      outputHTML += closingTagArray.pop();
+  }
   
-  buildElement(tagName);
-  
-  console.log(nodeType);
-  console.log(tagName);
-  console.log(attributes);
-  console.log(name);
-
-  // if children Recursion ()
+  const element = astObject;
+  const {nodeType, tagName, attributes, children} = element
+  if (nodeType === 'element'){
+    outputHTML += openingTag(tagName, attributes);
+    closingTagArray.push(closingTag(tagName));
+  }
+  if (children !== undefined){
+    convertAstToHtmlString(children);
+  }
+  return outputHTML;
 }
-convertAstToHtmlString(
-  { 
-    "nodeType": "element", "tagName": "div",
-    "attributes": [ { "name": "class", "value": "test" } ],
-    "children": [ { "nodeType": "text", "value": "Hello world!" }]})
+    
+    function openingTag(tagName, atr){
+      const [{name, value}] = atr;
+      return `<${tagName} ${name}="${value}">`;
+    }
 
-/* Weryfikacja 
+    function closingTag(tagName){
+      return `</${tagName}>`;
+    }
+
+
+
+
+
+/* Weryfikacja */
 function verify(input, goal) {
   input = Array.isArray(input) ? `[${input.join(', ')}]` : input;
   if (input === goal) {
@@ -71,4 +71,3 @@ verify(convertAstToHtmlString(
     "nodeType": "element", "tagName": "div",
     "attributes": [ { "name": "class", "value": "test" } ],
     "children": [ { "nodeType": "text", "value": "Hello world!" }]}), '<div class="test">Hello world!</div>');
- */
