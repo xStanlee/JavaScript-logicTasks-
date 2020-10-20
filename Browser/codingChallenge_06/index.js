@@ -7,25 +7,32 @@ const typeOfPopUp = ["Success", "Warning", "Error"];
 const mainContainer = document.querySelector(".-m-2");
 
 for (let i = 0; i < 10; i++) {
-  if (i % 3 === 0) {
-    mainContainer.innerHTML = "";
-  }
   const alert = new GreatAlert(randomType()); //RandomAlert
-  const individualAlert = creatEl();
+  const individualAlert = creatEl(alert);
 
-  individualAlert.innerHTML = alert.popUp();
-  setTimeout(() => {
+  individualAlert.addEventListener("click", ev => {
     individualAlert.parentElement.removeChild(individualAlert);
-  }, 10000);
+  });
+
+  removeTimeoutElement(10000, individualAlert);
+
   mainContainer.appendChild(individualAlert);
+  console.log(mainContainer.children.length);
 }
 
 function randomType() {
   return typeOfPopUp[Math.floor(Math.random() * Math.floor(3))];
 }
 
-function creatEl() {
+function creatEl(instance) {
   const el = document.createElement("div");
   el.setAttribute("class", "p-2");
+  el.innerHTML = instance.popUp();
   return el;
+}
+
+function removeTimeoutElement(time, el) {
+  setTimeout(() => {
+    el.innerHTML = "";
+  }, time);
 }
