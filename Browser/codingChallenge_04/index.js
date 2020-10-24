@@ -8,14 +8,7 @@ addPropertiesToArtciles(wrappers);
 
 wrappers.forEach(main => {
   main.setAttribute("id", `wrapper__${wrapperID}`);
-  main.addEventListener("dragover", ev => {
-    ev.preventDefault();
-  });
-  main.addEventListener("drop", ev => {
-    const droppingData = ev.dataTransfer.getData("text");
-    const article = document.querySelector(droppingData);
-    main.appendChild(article);
-  });
+  servicesForEvents(main);
   wrapperID++;
 });
 
@@ -42,4 +35,15 @@ function addPropertiesToArtciles(nodeList) {
       ev.dataTransfer.setData("text/plain", articleID);
     });
   }
+}
+
+function servicesForEvents(el) {
+  el.addEventListener("dragover", ev => {
+    ev.preventDefault();
+  });
+  el.addEventListener("drop", ev => {
+    const droppingData = ev.dataTransfer.getData("text");
+    const article = document.querySelector(droppingData);
+    el.appendChild(article);
+  });
 }
