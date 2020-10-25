@@ -9,18 +9,18 @@ let stageState = 1;
 btnPrev.addEventListener("click", () => {
   stageState--;
   stageState = validationPrevBtn(stageState);
-  choseState(stageState);
+  chooseState(stageState);
 });
 
 btnNext.addEventListener("click", () => {
   stageState++;
   stageState = validationNextBtn(stageState);
-  choseState(stageState);
+  chooseState(stageState);
 });
 
-choseState(stageState);
+chooseState(stageState);
 
-function choseState(currState) {
+function chooseState(currState) {
   switch (currState) {
     case 1:
       disableBtnView(btnPrev);
