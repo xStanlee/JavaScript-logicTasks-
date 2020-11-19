@@ -1,0 +1,32 @@
+class HabitRenderer {
+
+    constructor(selector, array) {
+        this.selector = selector;
+        this.array = array;
+
+        this.ejdztiemel = '';
+    }
+
+    render() {
+        this.ejdztiemel = '';
+        this.prepereString();
+        document.querySelector(this.selector).innerHTML = this.ejdztiemel;
+    }
+
+    prepereString() {
+        this.array.habits.forEach(el => {
+            this.ejdztiemel += `<div class="col-3">
+                                    <div class="card" style="width: 80%; margin: 0 auto;">
+                                        <img class="card-img-top" src="../../habit.jpeg" alt="Card-img-fail">;
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">${el.name}</h5>
+                                        <p class="card-text">Started in month ${el.month} at day ${el.day}</p>
+                                        <a href="#" class="btn btn-info">Calendar</a>
+                                    </div>
+                                </div>`
+        });
+    }
+}
+
+export { HabitRenderer };
