@@ -1,7 +1,7 @@
 import Swal from '../node_modules/sweetalert2/src/sweetalert2.js';
 import { AppStorage } from './storage/AppStorage.js';
 import { DataRepository } from './Class/DataRepository.js';
-import { TaskRenderer } from './Class/TaskRenderer.js';
+import { HabitRenderer, refferences } from './Class/HabitRenderer.js';
 
 
 window.document.addEventListener( 'DOMContentLoaded', e => {
@@ -10,10 +10,10 @@ window.document.addEventListener( 'DOMContentLoaded', e => {
 
     const storage = new AppStorage();
     const dataRepository = new DataRepository(storage);
-    const renderer = new TaskRenderer('.list', dataRepository);
+    const renderer = new HabitRenderer('.list', dataRepository);
 
     renderer.render('.list', dataRepository.getAll());
-
+    setCalendarListener(refferences);
 
     searchHabitBtn.addEventListener( 'click', e => {
 
@@ -77,3 +77,18 @@ window.document.addEventListener( 'DOMContentLoaded', e => {
         })
     });
 });
+
+function setCalendarListener(reff) { 
+    for(const each of reff) {
+        const el = document.querySelector(`#${each.id}`);
+        el.addEventListener('click', e => {
+            e.preventDefault();
+            const date = new Date();
+            const month = date.getMonth();
+            const day = date.getDate();
+            console.log(month);
+            //.log(`${Number(each.month)}`);
+            console.log(`${month} and day is ${day}`);
+        })
+    }
+}
