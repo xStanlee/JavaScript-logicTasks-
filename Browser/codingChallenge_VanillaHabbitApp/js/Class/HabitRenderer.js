@@ -1,23 +1,36 @@
-const refferences = [];
-
 class HabitRenderer {
 
     constructor(selector, array) {
         this.selector = selector;
         this.array = array;
 
-        this.ejdztiemel = '';
+        this.ejdztiemel = document.createElement('li');
+    }
+
+    prepereElement() {
+        this.ejdztiemel.classList.add('mr-2 mb-4 col-3');
+
+        this.firstChild = document.createElement('div');
+        this.firstChild.classList.add('mt-4 mb-2 card');
+        this.firstChild.style.width = '80%';
+        this.firstChild.style.margin = '0 auto;';
+        this.firstChild.innerHTML = '<img class="card-img-top" src="https://www.verbaltovisual.com/wp-content/uploads/2020/01/EstablishYourRoutine_Featured-1050x591.png" style="background-size: cover;" alt="Card-img-fail">'
+
+        this.secondChild = document.createElement('div');
+        this.secondChild.classList.add('mb-2 card-body');
+        this.secondChild.innerHTML = `  <h5 class="card-title">${el.name}</h5>
+                                        <p class="mb-4 card-text">Started at ${el.day}${this.setPostfix(el.day)} ${this.setMonth(el.month)}.</p>
+                                        <a href="#" id="${el.id}" class="mb-2 btn btn-info">Calendar</a>`
     }
 
     render() {
-        this.ejdztiemel = '';
-        this.prepereString();
+        this.selector.innerHTML = '';
+        this.prepareString();
         document.querySelector(this.selector).innerHTML = this.ejdztiemel;
     }
 
-    prepereString() {
+    prepareString() {
         this.array.habits.forEach(el => {
-            this.IDelement = `calendar-${this.getRandomInt(99999)}`;
             this.ejdztiemel += `<div class="mr-2 mb-4 col-3">
                                     <div class="mt-4 mb-2 card" style="width: 80%; margin: 0 auto;">
                                         <img class="card-img-top" src="https://www.verbaltovisual.com/wp-content/uploads/2020/01/EstablishYourRoutine_Featured-1050x591.png" style="background-size: cover;" alt="Card-img-fail">
@@ -25,15 +38,9 @@ class HabitRenderer {
                                     <div class="mb-2 card-body">
                                         <h5 class="card-title">${el.name}</h5>
                                         <p class="mb-4 card-text">Started at ${el.day}${this.setPostfix(el.day)} ${this.setMonth(el.month)}.</p>
-                                        <a href="#" id="${this.IDelement}" class="mb-2 btn btn-info">Calendar</a>
+                                        <a href="#" id="${el.id}" class="mb-2 btn btn-info">Calendar</a>
                                     </div>
                                 </div>`
-            this.pair = {
-                "id": this.IDelement,
-                "month": el.month,
-                "day": el.day
-            }
-            refferences.push(this.pair);
         });
     }
     setMonth(month) {
@@ -61,9 +68,6 @@ class HabitRenderer {
             default: return 'th.';
         }
     }
-    getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
 }
 
-export { HabitRenderer, refferences };
+export { HabitRenderer };
