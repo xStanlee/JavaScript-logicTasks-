@@ -4,23 +4,50 @@ import "./style.css";
 const btnPrev = document.querySelector("#btn_prev");
 const btnNext = document.querySelector("#btn_next");
 
+const lengthOfSteps = document.querySelectorAll(".ball").length;
 let stageState = 1;
 
 btnPrev.addEventListener("click", () => {
   stageState--;
-  stageState = validationPrevBtn(stageState);
+  stageState = validatePrevBtn(stageState);
   chooseState(stageState);
+  //choseState(stageState);
 });
 
 btnNext.addEventListener("click", () => {
   stageState++;
-  stageState = validationNextBtn(stageState);
+  stageState = validateNextBtn(stageState);
   chooseState(stageState);
+  //choseState(stageState);
 });
 
 chooseState(stageState);
 
 function chooseState(currState) {
+  if (currState === 1) {
+    disableBtnView(btnPrev);
+    unfillBall(currState + 1);
+    setWire(currState);
+    showNumber(currState);
+    return;
+  }
+  if (currState === lengthOfSteps) {
+    disableBtnView(btnNext);
+    fillBall(currState);
+    setWire(currState);
+    hideNumber(currState);
+    return;
+  }
+  enableBtnView(btnNext);
+  enableBtnView(btnPrev);
+  unfillBall(currState + 1);
+  fillBall(currState);
+  setWire(currState);
+  hideNumber(currState);
+  showNumber(currState);
+}
+/*
+function choseState(currState) {
   switch (currState) {
     case 1:
       disableBtnView(btnPrev);
@@ -52,13 +79,13 @@ function chooseState(currState) {
       break;
   }
 }
-
-function validationPrevBtn(currState) {
+*/
+function validatePrevBtn(currState) {
   return currState < 1 ? (currState = 1) : currState;
 }
 
-function validationNextBtn(currState) {
-  return currState > 4 ? (currState = 4) : currState;
+function validateNextBtn(currState) {
+  return currState > lengthOfSteps ? (currState = lengthOfSteps) : currState;
 }
 
 function disableBtnView(btn) {
