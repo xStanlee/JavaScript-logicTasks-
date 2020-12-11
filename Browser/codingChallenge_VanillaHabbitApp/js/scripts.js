@@ -1,7 +1,8 @@
 import Swal from '../node_modules/sweetalert2/src/sweetalert2.js';
 import { AppStorage } from './storage/AppStorage.js';
 import { DataRepository } from './Class/DataRepository.js';
-import { HabitRenderer, refferences } from './Class/HabitRenderer.js';
+import { HabitRenderer } from './Class/HabitRenderer.js';
+import { CalendarRenderer } from './Class/CalendarRenderer.js';
 
 
 window.document.addEventListener( 'DOMContentLoaded', e => {
@@ -12,8 +13,8 @@ window.document.addEventListener( 'DOMContentLoaded', e => {
     const dataRepository = new DataRepository(storage);
     const renderer = new HabitRenderer('.list', dataRepository);
 
-    renderer.render('.list', dataRepository.getAll());
-    setCalendarListener(refferences);
+    renderer.render();
+    renderer.addListeners();
 
     searchHabitBtn.addEventListener( 'click', e => {
 
@@ -44,8 +45,7 @@ window.document.addEventListener( 'DOMContentLoaded', e => {
             if (result.value) {
                 const name = result.value.shift();
                 const [month, day] = result.value;
-
-                if (name === '' || month <= 0 || month > 12 || day <= 0 || day > 31) {
+                if (name === '' || month <= 0 || month > 12 || day <= 0 || day > 31 || isNaN(day || month)) {
                     Swal.fire(
                         'Wrong arguments passed.',
                         'Please, type correct number of month and day.',
@@ -58,11 +58,51 @@ window.document.addEventListener( 'DOMContentLoaded', e => {
                         'info'
                         )
                 } else {
+                const elementID = `calendar-${getRandomInt(999999)}`;
                 dataRepository.add({ name: name,
                                     month: month,
                                     day: day,
+                                    id: elementID,
+                                    calendar: {
+                                        1: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                        2: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false],
+                                        3: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                        4: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false],
+                                        5: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                        6: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false],
+                                        7: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                        8: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                        9: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false],
+                                        10: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                        11: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false],
+                                        12: [false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false,
+                                            false, false, false, false, false, false, false, false, false, false, false],
+                                    }
                                 });
-                renderer.render('.list', dataRepository.getAll());
+                renderer.addItem('.list', dataRepository.getAll());
                 Swal.fire({
                     title: 'Habit succesfully added!',
                     html: `
@@ -70,14 +110,22 @@ window.document.addEventListener( 'DOMContentLoaded', e => {
                     <pre><code>${name} is added as a Habit to local DB</code></pre>
                     `,
                     confirmButtonText: 'Lovely!'
-                });
-                // other functions
+                    });
+                document.querySelector(`#${elementID}`).addEventListener('click', e => {
+                    // Get name of habit and search storage APP_HABIT.name
+                    console.log(e.target);
+                    //render calendar on popup
+                    });
                 }
             }
         })
     });
-});
 
+    function getRandomInt(max) {
+        return Math.floor (Math.random() * Math.floor(max));
+    }
+});
+/*
 function setCalendarListener(reff) { 
     for(const each of reff) {
         const el = document.querySelector(`#${each.id}`);
@@ -91,4 +139,4 @@ function setCalendarListener(reff) {
             console.log(`${month} and day is ${day}`);
         })
     }
-}
+}*/
