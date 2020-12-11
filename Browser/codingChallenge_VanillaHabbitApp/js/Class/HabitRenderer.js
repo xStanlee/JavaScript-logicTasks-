@@ -1,48 +1,57 @@
+import { CalendarRenderer } from "./CalendarRenderer";
+
 class HabitRenderer {
 
     constructor(selector, array) {
-        this.selector = selector;
+        this.selector = document.querySelector(selector);
         this.array = array;
-
-        this.ejdztiemel = document.createElement('li');
     }
 
-    prepereElement() {
-        this.ejdztiemel.classList.add('mr-2 mb-4 col-3');
+    prepereElement(el) {
+        this.ejdztiemel = document.createElement('li');
+        this.ejdztiemel.setAttribute('class', 'mr-2 mb-4 col-3');
 
         this.firstChild = document.createElement('div');
-        this.firstChild.classList.add('mt-4 mb-2 card');
+        this.firstChild.setAttribute('class', 'mt-4 mb-2 card');
         this.firstChild.style.width = '80%';
         this.firstChild.style.margin = '0 auto;';
         this.firstChild.innerHTML = '<img class="card-img-top" src="https://www.verbaltovisual.com/wp-content/uploads/2020/01/EstablishYourRoutine_Featured-1050x591.png" style="background-size: cover;" alt="Card-img-fail">'
 
         this.secondChild = document.createElement('div');
-        this.secondChild.classList.add('mb-2 card-body');
+        this.secondChild.setAttribute('class', 'mb-2 card-body');
         this.secondChild.innerHTML = `  <h5 class="card-title">${el.name}</h5>
                                         <p class="mb-4 card-text">Started at ${el.day}${this.setPostfix(el.day)} ${this.setMonth(el.month)}.</p>
-                                        <a href="#" id="${el.id}" class="mb-2 btn btn-info">Calendar</a>`
+                                        <a href="#" id="${el.id}" class="mb-2 btn btn-info">Calendar</a>`;
+
+        this.ejdztiemel.insertAdjacentElement('afterbegin', this.firstChild);
+        this.ejdztiemel.insertAdjacentElement('beforeend', this.secondChild);
+
+        this.selector.appendChild(this.ejdztiemel);
+    }
+
+    addItem() {
+        this.prepereElement(this.array.habits[this.array.habits.length - 1]);
+        //add listener tooo
     }
 
     render() {
-        this.selector.innerHTML = '';
-        this.prepareString();
-        document.querySelector(this.selector).innerHTML = this.ejdztiemel;
+        this.array.habits.forEach(el => {
+            this.prepereElement(el);
+        })
     }
 
-    prepareString() {
+    addListeners() {
+        this.today = new Date();
+        this.currentDay = this.today.getDate();
+        this.currentMonth = this.today.getMonth() + 1;
         this.array.habits.forEach(el => {
-            this.ejdztiemel += `<div class="mr-2 mb-4 col-3">
-                                    <div class="mt-4 mb-2 card" style="width: 80%; margin: 0 auto;">
-                                        <img class="card-img-top" src="https://www.verbaltovisual.com/wp-content/uploads/2020/01/EstablishYourRoutine_Featured-1050x591.png" style="background-size: cover;" alt="Card-img-fail">
-                                    </div>
-                                    <div class="mb-2 card-body">
-                                        <h5 class="card-title">${el.name}</h5>
-                                        <p class="mb-4 card-text">Started at ${el.day}${this.setPostfix(el.day)} ${this.setMonth(el.month)}.</p>
-                                        <a href="#" id="${el.id}" class="mb-2 btn btn-info">Calendar</a>
-                                    </div>
-                                </div>`
-        });
-    }
+            const calendarHabbit = document.querySelector(`#${el.id}`);
+            calendarHabbit.addEventListener('click', () => {
+                const habitter = new CalendarRenderer(Number(el.day), Number(el.month), this.currentDay, this.currentMonth);
+                console.log(habitter);
+            })
+        })}
+
     setMonth(month) {
         switch(month) {
             case '1': return 'January';
