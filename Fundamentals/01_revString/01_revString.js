@@ -14,13 +14,6 @@
 * reverseMe('abc') // => 'cba'
 */
 
-function reverseMe(input) {
-  input = Array.from(input);
-  input = input.reverse();
-  input = input.join("");
-  return input;
-}
-
 /*
 * Punkty dodatkowe
 *-----------------
@@ -28,28 +21,34 @@ function reverseMe(input) {
 * spełnia tego warunku, funkcja powinna rzucić wyjątek.
 */
 
-function stringVerify(input){
-  if (typeof input !== "string"){
-    try{
-      throw new Error('This value is not string type.');
-    }catch(e){
-      console.log(e.message);
-    }
-  }else return input;
+const NewTypeError = require('./NewTypeError.js');
+
+try{
+  verify(reverseMe('mars'), 'sram');
+  verify(reverseMe(3), '!owarB');
+} catch(e) {
+  alert(e.message);
+}
+function validator(input){
+  return typeof(input) === "string";
+}
+
+function reverseMe(input) {
+  if(!validator(input)) {
+    throw new NewTypeError(`Typ danych umieszczonych jako argument funkcji ${typeof(input)}. 
+Funkcja dopuszcza tylko typ \'string\'.`);
+  }
+  return (input.length === 0) ? input : reverseMe(input.substring(1, input.length)) + input[0];
 }
 
 /* Weryfikacja */
-
 function verify(input, goal) {
-  if (input === goal) {
-    console.log('Gratulacje!');
-  } else {
-    console.log(`Niestety, oczekiwano - ${goal}, otrzymano - ${input}`);
-  }
+    if (typeof input !== 'undefined' || typeof input === 'string') {
+      if(input === goal) {
+        console.log('Gratulacje!');
+      }else {
+        console.log(`Niestety, oczekiwano - ${goal}, otrzymano - ${input}`);
+        }
+    }
 }
-
-verify(reverseMe(stringVerify('a')), 'a');
-verify(reverseMe(stringVerify('abc')), 'cba');
-verify(reverseMe(stringVerify('Przeprogramowani')), 'inawomargorpezrP');
-verify(reverseMe(stringVerify('Brawo!')), '!owarB');
 
