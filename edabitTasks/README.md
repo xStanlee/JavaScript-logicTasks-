@@ -3,9 +3,9 @@
 According to the lodash documentation, _.find Iterates over elements of collection, returning the first element predicate returns truthy for. The predicate is invoked with three arguments: (value, index|key, collection).
 ## Arguments
 
-    ``` collection (Array or Object): The collection to inspect.
+    collection (Array or Object): The collection to inspect.
     [predicate=_.identity] function, object, array or string
-    [fromIndex=0] (number): The index to search from. ```
+    [fromIndex=0] (number): The index to search from.
 
 Recreate lodash's _.find using vanilla JavaScript.
 
