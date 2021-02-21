@@ -20,17 +20,3 @@ export function myFind(pass, req) {
         }
     }
 }
-
-
-var users = [
-    { "user": "barney",  "age": 36, "active": true },
-    { "user": "fred",    "age": 40, "active": false },
-    { "user": "pebbles", "age": 1,  "active": true }
-  ]
-
-  // test for string
-  myFind(users, "active");
-  // test for array
-  myFind(users, ["active", false]);
-  // test for object
-  myFind(users, { "age": 1, "active": true });
