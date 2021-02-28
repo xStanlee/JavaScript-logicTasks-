@@ -1,10 +1,11 @@
-replaceNums("I have 2 sheep.");
+function returnFirstDigit(str){
+    const arrayFromText = Array.from(str);
 
-replaceNums("My father was born in 1974.10.25.");
-
-replaceNums("10hell76o4 boi");
-
-function replacesNums(str) {
-  const arrBaseForChange = Array.from(str);
-  return arrBaseForChange;
+    arrayFromText.indexOf(arrayFromText.find(function(el) {
+            if(isNaN(el) === false && Number(el) !== 0) {
+                return el;
+            }
+    }));
 }
+
+const oneDigit = returnFirstDigit('abcd 23');
